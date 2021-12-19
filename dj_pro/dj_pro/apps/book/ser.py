@@ -4,13 +4,15 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from dj_pro import settings
 from . import models
+
+# 获取图书的序列化类
 class book_ser(ModelSerializer):
     class Meta:
         model = models.Book
         fields = '__all__'
 
 
-
+# 获取支付时前端所传过来的序列化类,本来要用,最后由于一点bug没用
 class Pay_ser(ModelSerializer):
     price = serializers.DecimalField(max_digits=5,decimal_places=2)
     name = serializers.CharField(max_length=32)

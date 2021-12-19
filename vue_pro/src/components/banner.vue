@@ -39,6 +39,6 @@
 
     .el-carousel__item img {
         height: 400px;
-        margin-left: calc(50% - 1920px / 2);
+        /*margin-left: calc(50% - 1920px / 2);*/
     }
 </style>

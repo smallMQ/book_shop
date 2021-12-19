@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework.viewsets import ModelViewSet,GenericViewSet
-from rest_framework.mixins import CreateModelMixin,ListModelMixin
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.views import APIView
 from .models import Book
 from . import models
@@ -15,19 +15,23 @@ from .ser import Pay_ser
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.db.models import F
 from dj_pro import settings
-class Book_api(GenericViewSet,ListModelMixin):
+
+
+# 获取图书的api视图
+class Book_api(GenericViewSet, ListModelMixin):
     queryset = Book.objects.all()
     serializer_class = book_ser
     pagination_class = PageNumberPagination
     ordering_fields = ['id', 'price']
 
 
-
-class PayView(GenericViewSet,CreateModelMixin):
+# 支付的视图
+class PayView(GenericViewSet, CreateModelMixin):
     queryset = models.order.objects.all()
     serializer_class = None
     authentication_classes = [JSONWebTokenAuthentication, ]
     pagination_class = None
+
     def create(self, request, *args, **kwargs):
         book_id = request.data['book']
         price = request.data['price']
@@ -40,7 +44,7 @@ class PayView(GenericViewSet,CreateModelMixin):
         print(former + later)
         order_num = former + later
 
-        #生成支付链接
+        # 生成支付链接
         from dj_pro.libs.ali_pay.pay import alipay, gateway
         order_string = alipay.api_alipay_trade_page_pay(
             out_trade_no=order_num,
@@ -69,27 +73,18 @@ class PayView(GenericViewSet,CreateModelMixin):
     # 生成订单号
 
 
-
-
-
-
-
-
-
-
-
+# 支付成功的视图
 class SuccessView(APIView):
-    def get(self,request,*args,**kwargs):
+    def get(self, request, *args, **kwargs):
         # 对数据库进行操作,生成订单
         out_trade_no = request.query_params.get('out_trade_no')
         book_name = out_trade_no[32:]
         book = models.Book.objects.filter(name=book_name).first()
-        book = models.Book.objects.filter(id=book.id).update(number=F('number')-1)
+        book = models.Book.objects.filter(id=book.id).update(number=F('number') - 1)
         print(book_name)
         return Response(True)
 
-
-    def post(self,request,*args,**kwargs):
+    def post(self, request, *args, **kwargs):
         '''
         支付宝回调接口
         '''
@@ -97,13 +92,13 @@ class SuccessView(APIView):
         from dj_pro.libs.ali_pay import pay
         # from luffy_api.utils import logging
         data = request.data
-        out_trade_no=data.get('out_trade_no',None)
-        gmt_payment=data.get('gmt_payment',None)
+        out_trade_no = data.get('out_trade_no', None)
+        gmt_payment = data.get('gmt_payment', None)
         signature = data.pop("sign")
         # 验证签名
         success = pay.verify(data, signature)
         if success and data["trade_status"] in ("TRADE_SUCCESS", "TRADE_FINISHED"):
-            models.order.objects.filter(num=out_trade_no).update(order_status=1,pay_time=gmt_payment)
+            models.order.objects.filter(num=out_trade_no).update(order_status=1, pay_time=gmt_payment)
             # logging.info('%s订单支付成功'%out_trade_no)
 
             return Response('success')
@@ -112,10 +107,10 @@ class SuccessView(APIView):
             return Response('error')
 
 
-# 搜索
-class BookSearchView(GenericViewSet,ListModelMixin):
+# 搜索视图
+class BookSearchView(GenericViewSet, ListModelMixin):
     queryset = models.Book.objects.all()
     serializer_class = book_ser
     pagination_class = PageNumberPagination
-    filter_backends=[SearchFilter]
-    search_fields=['name','author']
+    filter_backends = [SearchFilter]
+    search_fields = ['name', 'author']

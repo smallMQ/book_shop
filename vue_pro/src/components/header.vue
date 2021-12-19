@@ -45,7 +45,7 @@
                     <span class="line">|</span>
                     <span @click="logout">注销</span>
                      <span class="line">|</span>
-                    <span><a href="http://127.0.0.1:8000/admin">后台管理</a></span>
+                    <span><a href="http://127.0.0.1:8000/admin" target="view_window">后台管理</a></span>
                 </div>
                 <div v-else>
                     <span>{{username}}</span>
