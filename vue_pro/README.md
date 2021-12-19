@@ -19,3 +19,9 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 在运行按钮左边有一个编辑配置
 按照下面的配置应该就可以运行了
 ![Image text](./one.png)
+
+    !!! 注意
+    验证码登录注册校验功能将于2022-03-19 11:43:59过期,该时间之后无法使用验证码登录,验证
+    默认超级用户root 密码:root
+    普通用户:16639821093 密码:123
+    默认支付宝支付账户:cyqgyn2448@sandbox.com 密码:111111
