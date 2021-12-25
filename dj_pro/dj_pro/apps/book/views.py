@@ -1,17 +1,15 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.views import APIView
-from .models import Book
+from .models import Book, Category
 from . import models
-from .ser import book_ser
+from .ser import book_ser, Category_ser
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from dj_pro.utils.response import Response
-from rest_framework.decorators import action
-from .ser import Pay_ser
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.db.models import F
 from dj_pro import settings
@@ -22,7 +20,15 @@ class Book_api(GenericViewSet, ListModelMixin):
     queryset = Book.objects.all()
     serializer_class = book_ser
     pagination_class = PageNumberPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     ordering_fields = ['id', 'price']
+    filter_fields = ['category', ]
+
+
+class Category_api(GenericViewSet, ListModelMixin):
+    queryset = Category.objects.all()
+    serializer_class = Category_ser
+    pagination_class = None
 
 
 # 支付的视图
@@ -55,22 +61,7 @@ class PayView(GenericViewSet, CreateModelMixin):
         )
         pay_url = gateway + order_string
         order = models.order.objects.create(user=user, num=order_num, book_id=book_id)
-        # my_ser = self.get_serializer(data=request.data,context={'request':request})
-        # print(type(request.data))
-        # print('2')
-        # if my_ser.is_valid():
-        #     print('3')
-        #     # print(request.data)
-        #     order_num = my_ser.context.get('order_num')
-        #     user = request.user
-        #     book_id = my_ser.context.get('book')
-        #     print(order_num)
-        #     order = models.order.objects.create(user=request.user,num=order_num,book_id=request.data['book'])
-        #     print('创建订单成功')
-        # else:
-        #     print('no')
         return Response(pay_url)
-    # 生成订单号
 
 
 # 支付成功的视图
@@ -99,11 +90,8 @@ class SuccessView(APIView):
         success = pay.verify(data, signature)
         if success and data["trade_status"] in ("TRADE_SUCCESS", "TRADE_FINISHED"):
             models.order.objects.filter(num=out_trade_no).update(order_status=1, pay_time=gmt_payment)
-            # logging.info('%s订单支付成功'%out_trade_no)
-
             return Response('success')
         else:
-            # logging.info('%s订单有问题' % out_trade_no)
             return Response('error')
 
 

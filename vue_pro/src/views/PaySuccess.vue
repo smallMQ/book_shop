@@ -55,15 +55,18 @@
 
 
             // 把地址栏上面的支付结果，再get请求转发给后端
-            this.$axios({
-                url: this.$settings.base_url + '/book/success/' + location.search,
-                method: 'get',
+            this.$axios.get(this.$settings.base_url + '/book/success/' + location.search
+            ).then(response => {
 
-            }).then(response => {
-                console.log(response.data);
+                console.log('ok');
+                // location.reload()
             }).catch(() => {
                 console.log('支付结果同步失败');
+                // location.reload()
             })
+        },
+        mounted() {
+            // location.reload();
         },
         methods:{
             what(){

@@ -20,6 +20,8 @@ from rest_framework.routers import  SimpleRouter
 router=SimpleRouter()
 # 注册获取图书的路由
 router.register('book',views.Book_api,'book')
+# 注册获取图书分类的路由
+router.register('category',views.Category_api,'category')
 # 注册获取搜索结果的路由
 router.register('search',views.BookSearchView,'search')
 # 注册支付的路由
@@ -30,6 +32,5 @@ urlpatterns = [
     # 注册上边注册的所有路由
     path('', include(router.urls)),
 
-    # path('pay/',views.PayView.as_view())
 ]
 

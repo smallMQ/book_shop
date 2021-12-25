@@ -10,3 +10,6 @@ class banner(models.Model):
     def __str__(self):
         return self.alt
 
+    class Meta:
+        verbose_name = '首页轮播图表'
+        verbose_name_plural = '首页轮播图表'

@@ -12,6 +12,12 @@ class book_ser(ModelSerializer):
         fields = '__all__'
 
 
+class Category_ser(ModelSerializer):
+    class Meta:
+        model = models.Category
+        fields = '__all__'
+
+
 # 获取支付时前端所传过来的序列化类,本来要用,最后由于一点bug没用
 class Pay_ser(ModelSerializer):
     price = serializers.DecimalField(max_digits=5,decimal_places=2)
@@ -69,12 +75,7 @@ class Pay_ser(ModelSerializer):
         self.context['pay_url'] = pay_url
         self._before_create(attrs,user,order_num,pay_url)
         return attrs
-    # def create(self, validated_data):
-    #     # print(**validated_data)
-    #     validated_data = validated_data.remove('price')
-    #     validated_data = validated_data.remove('name')
-    #     order = models.order.objects.create()
-    #     return order
+
 
 
 

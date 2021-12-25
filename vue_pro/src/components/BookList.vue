@@ -3,8 +3,24 @@
         <div class="main">
             <!-- 筛选条件 -->
             <div class="condition">
+                <ul class="cate-list">
+                    <li class="title">课程分类:</li>
+                    <li :class="filter.book_category==0?'this':''" @click="filter.book_category=0">全部</li>
+                    <li :class="filter.book_category==category.id?'this':''" v-for="category in category_list"
+                        @click="filter.book_category=category.id" :key="category.class_name">{{category.class_name}}
+                    </li>
+                </ul>
                 <div class="ordering">
-
+                    <ul>
+                        <li class="title">筛&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选:</li>
+                        <li class="default" :class="(filter.ordering=='id' || filter.ordering=='-id')?'this':''"
+                            @click="filter.ordering='-id'">默认
+                        </li>
+                        <li class="price"
+                            :class="filter.ordering=='price'?'price_up this':(filter.ordering=='-price'?'price_down this':'')"
+                            @click="filter.ordering=(filter.ordering=='-price'?'price':'-price')">价格
+                        </li>
+                    </ul>
                     <p class="condition-result">共{{book_count}}个图书</p>
                 </div>
 
@@ -21,12 +37,16 @@
                         </h3>
                         <p>作者:{{book.author}}</p>
 
-                        <div style="width: 40%"><span></span></div>
-                        <div style="width: 50%;float:left"><span></span></div>
 
-                        <p class="teather-info">
 
-                        </p>
+
+                        <span class="teather-info" v-for="category in category_list">
+                            <p v-show="book.category == category.id">
+                                分类:{{category.class_name}}
+                            </p>
+                        </span>
+                        <span style="width: 50%;">出版社:{{book.publisher}}</span>
+
 
                         <div class="pay-box">
                             <div>
@@ -70,7 +90,7 @@
                 book_count: 0,   // 当前课程的总数量
 
                 filter: {
-                    course_category: 0, // 当前用户选择的课程分类，刚进入页面默认为全部，值为0
+                    book_category: 0, // 当前用户选择的课程分类，刚进入页面默认为全部，值为0
                     ordering: "-id",    // 数据的排序方式，默认值是-id，表示对于id进行降序排列
                     page_size: 3,       // 单页数据量
                     page: 1,
@@ -79,12 +99,13 @@
         },
         created() {
             this.get_course();
+            this.get_category();
         },
         components: {},
 
         watch: {
             "search": function () {
-                this.$axios.get(settings.base_url + '/book/search/', {params: {'search':this.search}}).then(response => {
+                this.$axios.get(settings.base_url + '/book/search/', {params: {'search': this.search}}).then(response => {
                     this.book_list = response.data.results;
                     this.book_count = response.data.results.length;
                     console.log(this.book_list)
@@ -99,7 +120,11 @@
                     console.log('获取课程信息有误，请联系客服工作人员')
                 )
             },
-                //当你监听的数据发生变化，就会执行函数
+            "filter.book_category": function () {
+                this.filter.page = 1;
+                this.get_course();
+            },
+            //当你监听的数据发生变化，就会执行函数
 
             "filter.ordering": function () {
                 this.get_course();
@@ -110,8 +135,6 @@
             "filter.page": function () {
                 this.get_course();
             }
-
-
 
 
         },
@@ -158,16 +181,25 @@
                 // 页码发生变化时执行的方法
                 this.filter.page = val;
             },
+            get_category() {
+                this.$axios.get(settings.base_url + "/book/category/").then(response => {
+                    this.category_list = response.data;
+                    console.log(this.category_list);
+                    console.log(response.data);
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
             get_course() {
 
                 let filters = {
                     ordering: this.filter.ordering, // 排序
                 };
-                // // 判决是否进行分类课程的展示
-                // // if (this.filter.course_category > 0) {
-                // //     filters.course_category = this.filter.course_category;
-                // // }
-                //
+                // 判决是否进行分类课程的展示
+                if (this.filter.book_category > 0) {
+                    filters.category = this.filter.book_category;
+                }
+
                 // 设置单页数据量
                 if (this.filter.page_size > 0) {
                     filters.page_size = this.filter.page_size;
@@ -182,7 +214,7 @@
                     filters.page = 1;
                 }
 
-                this.$axios.get(settings.base_url + "/book/book/",{params:filters}).then(response => {
+                this.$axios.get(settings.base_url + "/book/book/", {params: filters}).then(response => {
                     // console.log(response.data);
                     this.book_list = response.data.results;
                     this.book_count = response.data.count;

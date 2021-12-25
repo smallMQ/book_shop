@@ -1,7 +1,3 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
-# Create your views here.
-from rest_framework.response import Response
 from dj_pro.utils import response
 from rest_framework.decorators import action
 from django.core.cache import cache
