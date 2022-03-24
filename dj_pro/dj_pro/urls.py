@@ -22,6 +22,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('home/', include('home.urls')),
     path('book/', include('book.urls')),
+    path('oldbook/', include('oldbook.urls')),
     # 暴露media文件
     re_path(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

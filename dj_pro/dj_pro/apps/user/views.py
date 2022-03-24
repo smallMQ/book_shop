@@ -7,8 +7,9 @@ from . import ser
 from . import models
 import re
 from dj_pro.libs.tx_sms import send_sms
-
-
+from rest_framework.views import APIView
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 # 登录视图
 class LoginView(ViewSet):
     # 登录
@@ -19,7 +20,7 @@ class LoginView(ViewSet):
             token = ser_obj.context['token']
             username = ser_obj.context['user'].username
             user = ser_obj.context['user']
-            return response.ApiResponse(token=token, username=username, is_superuser=user.is_superuser)
+            return response.ApiResponse(token=token, username=username, is_superuser=user.is_superuser,user_id = user.id)
         else:
             return response.ApiResponse(code=0, msg=ser_obj.errors)
 
@@ -119,3 +120,37 @@ class RegisterView(ViewSet):
         # 签发encode成token
         token = jwt_encode_handler(payload)
         return token
+
+
+class ChangePassword(APIView):
+    authentication_classes = [JSONWebTokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+
+        msg = request.data
+
+        user_obj = models.UserInfo.objects.filter(username=msg['user']).first()
+        if msg['username'] == msg['user']:
+            if msg['password'] == msg['check_password']:
+                user_obj.set_password(msg['password'])
+                user_obj.save()
+            else:
+                return response.Response({'code':400})
+        else:
+            if msg['password'] == msg['check_password']:
+                user_obj.set_password(msg['password'])
+                if msg['username'] is not None or '':
+                    if models.UserInfo.objects.filter(username=msg['username']).first():
+                        return response.Response({
+                            'code':400
+                        })
+                    user_obj.username=msg['username']
+                user_obj.save()
+            else:
+                return response.Response({'code':400})
+
+        return response.Response({'code':0})
+
+
+
+

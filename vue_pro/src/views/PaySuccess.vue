@@ -51,7 +51,7 @@
 
             }
             // 解析后的结果
-            // console.log(this.result);
+            console.log(this.result);
 
 
             // 把地址栏上面的支付结果，再get请求转发给后端

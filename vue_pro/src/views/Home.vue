@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header @search_book="get_book_search"></Header>
-        <Banner/>
+<!--        <Banner/>-->
         <BookList :search="search"></BookList>
         <Footer/>
 

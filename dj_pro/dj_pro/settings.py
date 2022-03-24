@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'user',
     'home',
     'book',
+    'oldbook',
     # rest_framework 注册
     'rest_framework',
     # 跨域问题
@@ -151,7 +152,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_ROOT,'media')
-print(MEDIA_ROOT)
+# print(MEDIA_ROOT)
 
 # print(MEDIA_ROOT)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -197,5 +198,9 @@ VUE_URL = 'http://localhost:8080/'
 
 
 NOTIFY_URL = DJ_URL + 'book/success'
+NOTIFY_URL_O = DJ_URL + 'oldbook/success'
+
 RETURN_URL = VUE_URL + '/success'
+RETURN_URL_O = VUE_URL + '/success2'
+
 # RETURN_URL = 'https://www.baidu.com'

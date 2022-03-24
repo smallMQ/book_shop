@@ -23,12 +23,12 @@ alipay = AliPay(
 )
 
 alipay_url = settings.GATEWAY
-order_string = alipay.api_alipay_trade_page_pay(
-    out_trade_no="20161112www4334",
-    total_amount=9999,
-    subject='韩红版充气娃娃',
-    return_url=settings.RETURN_URL,
-    notify_url=settings.NOTIFY_URL
-)
+# order_string = alipay.api_alipay_trade_page_pay(
+#     out_trade_no="20161112www4334",
+#     total_amount=9999,
+#     subject='韩红版充气娃娃',
+#     return_url=settings.RETURN_URL,
+#     notify_url=settings.NOTIFY_URL
+# )
 # print(alipay_url + order_string)
 gateway = settings.GATEWAY

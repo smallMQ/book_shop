@@ -57,7 +57,7 @@ class PayView(GenericViewSet, CreateModelMixin):
             total_amount=float(price),
             subject=name,
             return_url=settings.RETURN_URL,  # get回调，前台地址
-            notify_url=settings.NOTIFY_URL  # post回调，后台地址
+            notify_url=settings.NOTIFY_URL # post回调，后台地址
         )
         pay_url = gateway + order_string
         order = models.order.objects.create(user=user, num=order_num, book_id=book_id)
@@ -72,7 +72,7 @@ class SuccessView(APIView):
         book_name = out_trade_no[32:]
         book = models.Book.objects.filter(name=book_name).first()
         book = models.Book.objects.filter(id=book.id).update(number=F('number') - 1)
-        print(book_name)
+
         return Response(True)
 
     def post(self, request, *args, **kwargs):
@@ -81,7 +81,7 @@ class SuccessView(APIView):
         '''
         print('2')
         from dj_pro.libs.ali_pay import pay
-        # from luffy_api.utils import logging
+
         data = request.data
         out_trade_no = data.get('out_trade_no', None)
         gmt_payment = data.get('gmt_payment', None)

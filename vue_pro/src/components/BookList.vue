@@ -79,18 +79,18 @@
     import settings from "../assets/js/settings";
 
     export default {
-        name: "Course",
+        name: "BookList",
         props: [
             'search',
         ],
         data() {
             return {
-                category_list: [], // 课程分类列表
-                book_list: [],   // 课程列表
-                book_count: 0,   // 当前课程的总数量
+                category_list: [], // 图书分类列表
+                book_list: [],   // 图书列表
+                book_count: 0,   // 当前图书总数量
 
                 filter: {
-                    book_category: 0, // 当前用户选择的课程分类，刚进入页面默认为全部，值为0
+                    book_category: 0, // 当前用户选择的分类，刚进入页面默认为全部，值为0
                     ordering: "-id",    // 数据的排序方式，默认值是-id，表示对于id进行降序排列
                     page_size: 3,       // 单页数据量
                     page: 1,

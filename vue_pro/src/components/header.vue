@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="slogan">
-            <p>MQ,王贺,王宇的书店!</p>
+            <p>MQ,王贺,啊峥的书店!</p>
         </div>
         <div class="nav">
             <ul class="left-part">
@@ -34,6 +34,8 @@
 
             <div class="right-part">
                 <div v-if="!username">
+                    <router-link to="/Oldbook" :underline="false">二手书交易</router-link>
+                    <span class="line">|</span>
                     <span @click="Login">登录</span>
                     <span class="line">|</span>
                     <span @click="Register">注册</span>
@@ -41,13 +43,17 @@
                     <register @close="if_register_close" @go="go_LL" @reload="re_load" v-if="if_register"></register>
                 </div>
                 <div v-else-if="is_superuser == 'true'">
+                    <router-link to="/Oldbook" :underline="false">二手书交易</router-link>
+                    <span class="line">|</span>
                     <span>{{username}}</span>
                     <span class="line">|</span>
                     <span @click="logout">注销</span>
                      <span class="line">|</span>
-                    <span><a href="http://127.0.0.1:8000/admin" target="view_window">后台管理</a></span>
+                    <span><el-link :underline="false" href="http://127.0.0.1:8000/admin" target="_blank" >后台管理</el-link></span>
                 </div>
                 <div v-else>
+                    <router-link to="/Oldbook" :underline="false">二手书交易</router-link>
+                    <span class="line">|</span>
                     <span>{{username}}</span>
                     <span class="line">|</span>
                     <span @click="logout">注销</span>
@@ -136,8 +142,6 @@
                     return
                 }
                 else{
-                    // console.log(search_word)
-                    // console.log('123')
                     this.$emit('search_book', search_word)
                 }
 
@@ -303,5 +307,6 @@
     .search .tips span:hover {
         color: orange;
     }
+
 </style>
 

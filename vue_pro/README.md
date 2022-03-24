@@ -6,6 +6,8 @@
 2.如果不出意外的话,node_modules目录 中已经安装好所需要的所有模块了,
 这个我也不是很清楚......还是在细说一下我所有的配置最好
 
+2.1 必须得有vue  
+
 3.先换源在Terminal或者cmd中
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 
