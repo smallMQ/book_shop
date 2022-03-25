@@ -65,14 +65,6 @@
                 let token = this.$cookies.get('token')
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // this.$axios.post(settings.base_url + '/user/changemsg/', {
-                        //     'password': this.ruleForm.pass,
-                        //     'check_password': this.ruleForm.checkPass,
-                        //     'username': this.ruleForm.username,
-                        //     'user': this.$cookies.get('username')
-                        // }, {
-                        //     'headers':
-                        //         {Authorization: 'jwt ' + token}}
                         this.$axios(
                             {
                                 method: 'post',
@@ -94,7 +86,7 @@
                                 this.$cookies.set('username',this.ruleForm.username,'7d')
                             } else {
                                 this.$message({
-                                    message: '这是一条失败消息',
+                                    message: '你可能没有登录吧!',
                                     type: 'error'
                                 });
                             }

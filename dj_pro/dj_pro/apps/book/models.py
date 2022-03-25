@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import UserInfo
+import datetime
 # Create your models here.
 # 图书分类
 class Category(models.Model):
@@ -17,10 +18,11 @@ class Book(models.Model):
     name = models.CharField(max_length=32,verbose_name='书名')
     price = models.DecimalField(max_digits=5,decimal_places=2,verbose_name='价格')
     number = models.IntegerField(verbose_name='数量')
-    publisher = models.CharField(max_length=32,verbose_name='出版社')
+    publisher = models.CharField(max_length=32,verbose_name='出版社',default="无")
     image = models.ImageField(upload_to='book',verbose_name='书的图片',default='book/default.jpg')
     author = models.CharField(max_length=32,verbose_name='作者',null=True)
     category = models.ForeignKey(to=Category,verbose_name='分类',on_delete=models.DO_NOTHING)
+    create_time = models.DateField(verbose_name="创建时间",auto_now_add=True)
     def __str__(self):
         return self.name
 

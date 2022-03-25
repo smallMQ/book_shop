@@ -1,6 +1,6 @@
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.mixins import CreateModelMixin, ListModelMixin,DestroyModelMixin
 from rest_framework.views import APIView
 from .models import Book, Category
 from . import models
@@ -16,13 +16,27 @@ from dj_pro import settings
 
 
 # 获取图书的api视图
-class Book_api(GenericViewSet, ListModelMixin):
+class Book_api(GenericViewSet, ListModelMixin,CreateModelMixin,DestroyModelMixin):
     queryset = Book.objects.all()
     serializer_class = book_ser
     pagination_class = PageNumberPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     ordering_fields = ['id', 'price']
-    filter_fields = ['category', ]
+    filter_fields = ['category','author' ]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.filter(number__gt = 0)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+
 
 
 class Category_api(GenericViewSet, ListModelMixin):
@@ -70,8 +84,8 @@ class SuccessView(APIView):
         # 对数据库进行操作,生成订单
         out_trade_no = request.query_params.get('out_trade_no')
         book_name = out_trade_no[32:]
-        book = models.Book.objects.filter(name=book_name).first()
-        book = models.Book.objects.filter(id=book.id).update(number=F('number') - 1)
+        book_1 = models.Book.objects.filter(name=book_name).first()
+        book = models.Book.objects.filter(id=book_1.id).update(number=F('number') - 1)
 
         return Response(True)
 

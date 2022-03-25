@@ -3,16 +3,16 @@
                       <el-menu :default-active="activeIndex"  @select="handleSelect">
                          <el-menu-item index="1">
                         <i class="el-icon-location"></i>
-                        <span slot="title">交易大厅</span>
+                        <span slot="title">修改密码</span>
                     </el-menu-item>
 
                     <el-menu-item index="2">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">我要发布</span>
+                        <span slot="title">我要发布二手书</span>
                     </el-menu-item>
-                    <el-menu-item index="3">
+                            <el-menu-item index="4">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">个人管理</span>
+                        <span slot="title">我的发布管理</span>
                     </el-menu-item>
                 </el-menu>
                   </div>

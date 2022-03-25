@@ -4,9 +4,12 @@
         <div class="el-col-24">
             <Header @search_book="get_search_oldbook"></Header>
             <div class="el-col-18">
-<div v-if="index==1"><oldbooklist :search="search"></oldbooklist></div>
+
+                <div v-if="index==4"><person_oldbooklist :search="search"></person_oldbooklist></div>
+
+<div v-if="index==3"><oldbooklist :search="search"></oldbooklist></div>
 <div v-else-if="index==2"><sellbook></sellbook></div>
-<div v-else>
+<div v-else-if="index==1">
                 <changemsg></changemsg></div>
 
 
@@ -24,6 +27,7 @@
     import oldbooklist from "../components/oldbooklist";
     import sellbook from "../components/sellbook";
     import changemsg from "../components/changemsg";
+    import person_oldbooklist from "../components/person_oldbooklist";
 
     export default {
         name: "Oldbook",
@@ -33,6 +37,7 @@
             oldbooklist,
             sellbook,
             changemsg,
+            person_oldbooklist
         },
         data(){
             return{

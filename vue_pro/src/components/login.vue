@@ -73,10 +73,17 @@
                     this.$axios.post(this.$settings.base_url + '/user/login/',
                         {username: this.username, password: this.password}).then(response => {
                         console.log(response.data);
-
+                        if(response.data.code == "0"){
+                             this.$message({
+                        message: '用户名或密码错误',
+                        type: 'warning'
+                        });
+                             return ;
+                        }
                         this.$cookies.set('token', response.data.token, '7d');
                         this.$cookies.set('username', response.data.username, '7d');
                         this.$cookies.set('is_superuser', response.data.is_superuser, '7d');
+                        this.$cookies.set('user_id', response.data.user_id, '7d');
                         this.$emit('close');
                         this.$emit('reload');
 
@@ -103,6 +110,7 @@
                         this.$cookies.set('token', response.data.token, '7d');
                         this.$cookies.set('username', response.data.username, '7d');
                         this.$cookies.set('is_superuser', response.data.is_superuser, '7d');
+                        this.$cookies.set('user_id', response.data.user_id, '7d');
                         this.$emit('close');
                         this.$emit('reload');
                     } else {

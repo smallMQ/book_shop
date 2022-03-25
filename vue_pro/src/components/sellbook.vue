@@ -4,8 +4,8 @@
   <el-form-item label="书名">
     <el-input v-model="form.name"></el-input>
   </el-form-item>
-            <el-form-item label="简介">
-    <el-input type="textarea" v-model="form.desc"></el-input>
+            <el-form-item label="数量" >
+    <el-input type="text" v-model="form.num" disabled="disabled"></el-input>
   </el-form-item>
   <el-form-item label="价格">
     <el-input v-model="form.price"></el-input>
@@ -31,31 +31,34 @@
          data() {
       return {
         form: {
-          price:'',
+          price:0,
           name: '',
           delivery: false,
-          desc: '',
+          num: 1,
+            category:6,
           // imageUrl: ''
         }
       }
     },
     methods: {
       onSubmit() {
-        this.$axios.post(settings.base_url + '/oldbook/oldbook/',  {
+        this.$axios.post(settings.base_url + '/book/book/',  {
           "name": this.form.name,
-          "simple_introduce": this.form.desc,
-          "sell_user":this.$cookies.get('username'),
+          // "simple_introduce": this.form.desc,
+          "author":this.$cookies.get('username'),
           "price": this.form.price,
+            "number":this.form.num,
+            "category": this.form.category
           // "image": this.form.imageUrl
         }).then(response => {
           console.log('ok');
           this.$message({
-            message: '恭喜你，这是一条成功消息',
+            message: '恭喜你，增加成功',
             type: 'success'
           });
         }).catch(er=>{
                 this.$message({
-            message: 'error',
+            message: '抱歉,失败了呢!',
             type: 'error'
           });
         })

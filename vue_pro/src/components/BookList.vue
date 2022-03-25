@@ -4,7 +4,7 @@
             <!-- 筛选条件 -->
             <div class="condition">
                 <ul class="cate-list">
-                    <li class="title">课程分类:</li>
+                    <li class="title">图书分类:</li>
                     <li :class="filter.book_category==0?'this':''" @click="filter.book_category=0">全部</li>
                     <li :class="filter.book_category==category.id?'this':''" v-for="category in category_list"
                         @click="filter.book_category=category.id" :key="category.class_name">{{category.class_name}}
@@ -26,8 +26,9 @@
 
             </div>
             <!-- 图书列表 -->
-            <div class="course-list transition-box" name="el-zoom-in-top">
-                <div class="course-item" v-for="book in book_list" :key="book.name">
+<div v-if="book_count!=0">
+             <div class="course-list transition-box" name="el-zoom-in-top">
+                <div class="course-item" v-for="book in book_list" :key="book.name" >
                     <div class="course-image">
                         <img :src="book.image" alt="">
                     </div>
@@ -46,6 +47,7 @@
                             </p>
                         </span>
                         <span style="width: 50%;">出版社:{{book.publisher}}</span>
+                        <p><span style="width: 50%;">发布时间:{{book.create_time}}</span></p>
 
 
                         <div class="pay-box">
@@ -58,6 +60,12 @@
                         </div>
                     </div>
                 </div>
+                </div>
+            </div>
+
+            <div v-else>
+                            <el-empty description="这里太干净了"></el-empty>
+
             </div>
             <div class="course_pagination block">
                 <el-pagination

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 class BookAdmin(ModelAdmin):
-    list_display = ['name','price','number','publisher','author']
+    list_display = ['name','price','number','publisher','author','create_time']
     search_fields = ['name']
 
 class OrderAdmin(ModelAdmin):

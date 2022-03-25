@@ -11,7 +11,9 @@ router.register('oldbook',views.OldBookView,'oldbook')
 router.register('pay', views.PayView, 'pay')
 
 urlpatterns = [
-path('success/',views.Success.as_view()),
+# path('delete/(?P<pk>\d/$)',views.DeleteOldBookView.as_view({'delete':'destroy'})),
+    path('success/',views.Success.as_view()),
     path('', include(router.urls)),
 ]
+
 

@@ -4,18 +4,28 @@ from django.shortcuts import render
 from . import models
 from . import ser
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
-from rest_framework.mixins import CreateModelMixin,UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin,UpdateModelMixin,DestroyModelMixin
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from django_filters.rest_framework import DjangoFilterBackend
+
 from dj_pro import settings
 class OldBookView(ModelViewSet):
     pagination_class = None
     queryset = models.OldBook.objects.all()
     serializer_class = ser.OldBookSer
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter,DjangoFilterBackend]
     search_fields =['name']
+    filter_fields = ['sell_user']
+
+
+class DeleteOldBookView(GenericViewSet,DestroyModelMixin):
+    pagination_class = None
+    queryset = models.OldBook.objects.all()
+    serializer_class = ser.OldBookSer
+
 
 
 # 支付的视图

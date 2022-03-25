@@ -34,8 +34,7 @@
 
             <div class="right-part">
                 <div v-if="!username">
-                    <router-link to="/Oldbook" :underline="false">二手书交易</router-link>
-                    <span class="line">|</span>
+
                     <span @click="Login">登录</span>
                     <span class="line">|</span>
                     <span @click="Register">注册</span>
@@ -43,20 +42,24 @@
                     <register @close="if_register_close" @go="go_LL" @reload="re_load" v-if="if_register"></register>
                 </div>
                 <div v-else-if="is_superuser == 'true'">
-                    <router-link to="/Oldbook" :underline="false">二手书交易</router-link>
-                    <span class="line">|</span>
+
                     <span>{{username}}</span>
                     <span class="line">|</span>
                     <span @click="logout">注销</span>
                      <span class="line">|</span>
+                                        <router-link to="/Oldbook" :underline="false">个人中心</router-link>
+                    <span class="line">|</span>
+
                     <span><el-link :underline="false" href="http://127.0.0.1:8000/admin" target="_blank" >后台管理</el-link></span>
                 </div>
                 <div v-else>
-                    <router-link to="/Oldbook" :underline="false">二手书交易</router-link>
-                    <span class="line">|</span>
                     <span>{{username}}</span>
                     <span class="line">|</span>
                     <span @click="logout">注销</span>
+                                        <span class="line">|</span>
+
+                                        <router-link to="/Oldbook" :underline="false">个人中心</router-link>
+
 
                 </div>
             </div>
