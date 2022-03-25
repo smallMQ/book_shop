@@ -1,5 +1,8 @@
 <template>
-    <div style="float: left;margin-top: 30px;">
+    <div class="el-col-24">
+
+        <div class="el-col-8">.</div>
+        <div class="el-col-8">    <div style="float: left;margin-top: 30px;">
         <el-form ref="form" :model="form" label-width="80px" style="float:left;text-align: left;align-items: left">
   <el-form-item label="书名">
     <el-input v-model="form.name"></el-input>
@@ -21,7 +24,10 @@
     <el-button type="primary" @click="onSubmit">立即发布</el-button>
   </el-form-item>
 </el-form>
+    </div></div>
+        <div class="el-col-8"></div>
     </div>
+
 </template>
 
 <script>

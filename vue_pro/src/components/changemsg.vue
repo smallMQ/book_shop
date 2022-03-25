@@ -1,5 +1,7 @@
 <template>
-    <div style="margin-top: 30px">
+    <div class="el-col-24">
+           <div class="el-col-8">.</div>
+    <div class="el-col-8"><div style="margin-top: 30px">
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="新密码" prop="pass">
                 <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
@@ -16,7 +18,12 @@
             </el-form-item>
         </el-form>
 
+    </div></div>
+    <div class="el-col-8"></div>
+
     </div>
+
+
 </template>
 
 <script>

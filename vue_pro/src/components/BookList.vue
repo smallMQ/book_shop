@@ -26,7 +26,7 @@
 
             </div>
             <!-- 图书列表 -->
-<div v-if="book_count!=0">
+            <div v-if="book_count!=0">
              <div class="course-list transition-box" name="el-zoom-in-top">
                 <div class="course-item" v-for="book in book_list" :key="book.name" >
                     <div class="course-image">
