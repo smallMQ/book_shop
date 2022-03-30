@@ -54,7 +54,8 @@
         },
         methods: {
             register() {
-                this.$axios.post(this.$settings.base_url + '/user/register/', {
+                if(this.mobile && this.password && this.sms){
+                        this.$axios.post(this.$settings.base_url + '/user/register/', {
                     'telephone': this.mobile,
                     'password': this.password,
                     'code': this.sms
@@ -67,18 +68,36 @@
                         this.$emit('reload');
                         this.$message({
                             message: '注册成功',
-                            type: 'warning'
+                            type: 'info'
                         });
 
-                    } else {
+                    }
+
+
+                    else if(response.data.code == '0'){
+                         this.$message({
+                            message: '注册失败,手机号码已存在或者验证码不正确!',
+                            type: 'warning'
+                        });
+                    }
+                    else {
                         this.$message({
-                            message: '注册失败,手机号不合法或者验证码不正确',
+                            message: '注册失败,手机号不合法或者验证码不正确!',
                             type: 'warning'
                         });
                     }
                 }).catch(error => {
                     console.log(error)
                 })
+                }
+                else{
+                    this.$message({
+                            message: '手机号码或密码或验证码不完整',
+                            type: 'warning'
+                        });
+                }
+
+
             },
             close_register() {
                 this.$emit('close', false)

@@ -64,7 +64,7 @@
           });
         }).catch(er=>{
                 this.$message({
-            message: '抱歉,失败了呢!',
+            message: '抱歉,发布失败!请确保填写信息的正确性及完整性!',
             type: 'error'
           });
         })

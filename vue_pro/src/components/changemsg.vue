@@ -87,11 +87,18 @@
                         ).then(response => {
                             if (response.data.code == 0) {
                                 this.$message({
-                                    message: '恭喜你，这是一条成功消息',
+                                    message: '修改信息成功,请手动重新登录!',
                                     type: 'success'
                                 });
                                 this.$cookies.set('username',this.ruleForm.username,'7d')
-                            } else {
+                            }else if(response.data.code == 1){
+                                this.$message({
+                                    message: '修改的用户名不可以再是手机号!',
+                                    type: 'error'
+                                });
+                            }
+
+                            else {
                                 this.$message({
                                     message: '你可能没有登录吧!',
                                     type: 'error'

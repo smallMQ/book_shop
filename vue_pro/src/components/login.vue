@@ -93,7 +93,7 @@
                     })
                 } else {
                     this.$message({
-                        message: '填完整傻der',
+                        message: '账号或密码填写不完整',
                         type: 'warning'
                     });
 
@@ -113,7 +113,15 @@
                         this.$cookies.set('user_id', response.data.user_id, '7d');
                         this.$emit('close');
                         this.$emit('reload');
-                    } else {
+                    }else if(this.mobile == '' || this.sms == ''){
+                         this.$message({
+                            message: '手机号或者验证码填写不完整!',
+                            type: 'warning'
+                        });
+                    }
+
+
+                    else {
                         this.$message({
                             message: '验证码错误或者过期',
                             type: 'warning'

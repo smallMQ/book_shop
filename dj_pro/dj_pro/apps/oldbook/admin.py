@@ -7,4 +7,4 @@ class OldBookAdmin(ModelAdmin):
     search_fields = ['name']
 
 
-admin.site.register(models.OldBook,OldBookAdmin)
+# admin.site.register(models.OldBook,OldBookAdmin)

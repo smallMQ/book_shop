@@ -64,7 +64,7 @@
             </div>
 
             <div v-else>
-                            <el-empty description="这里太干净了"></el-empty>
+                            <el-empty description="空结果"></el-empty>
 
             </div>
             <div class="course_pagination block">

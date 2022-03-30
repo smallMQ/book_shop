@@ -139,11 +139,11 @@ class ChangePassword(APIView):
         else:
             if msg['password'] == msg['check_password']:
                 user_obj.set_password(msg['password'])
-                if msg['username'] is not None or '':
-                    if models.UserInfo.objects.filter(username=msg['username']).first():
-                        return response.Response({
-                            'code':400
-                        })
+                if msg['username'] == '':
+                    return response.Response({'code': 0})
+                else:
+                    if (re.match('^1[3-9][0-9]{9}$', msg['username'])):
+                        return response.Response({'code': 1})
                     user_obj.username=msg['username']
                 user_obj.save()
             else:
